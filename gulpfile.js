@@ -108,27 +108,45 @@ gulp.task('compile-all', function(callback) {
 
 // start the ionic livereload server
 gulp.task('run-server', function() {
-  exec('ionic serve');
+  return exec('ionic serve');
+});
+
+gulp.task('watch-styles', function(){
+  return gulp.watch(paths.sass, ['build-styles']);
+});
+
+gulp.task('watch-scripts', function(){
+  return gulp.watch(paths.scripts, ['build-scripts']);
+});
+
+gulp.task('watch-templates', function(){
+  return gulp.watch(paths.templates, ['build-templates']);
+});
+
+gulp.task('watch-index_page', function(){
+  return gulp.watch(paths.index_page, ['build-index']);
+});
+
+gulp.task('watch-images', function(){
+  return gulp.watch(paths.images, ['build-images']);
 });
 
 gulp.task('watch', function() {
-  gulp.watch(paths.sass, ['build-styles']);
-  gulp.watch(paths.scripts, ['build-scripts']);
-  gulp.watch(paths.templates, ['build-templates']);
-  gulp.watch(paths.index_page, ['build-index']);
-  gulp.watch(paths.images, ['build-images']);
+  return runSequence([  'watch-styles',
+                        'watch-scripts',
+                        'watch-templates',
+                        'watch-index_page',
+                        'watch-images'
+                      ]);
 });
 
 // compile then boot up the ionic livereload server
 gulp.task('serve', function() {
-  runSequence('compile-all', 
-              'run-server', 
-              'watch');
+  runSequence('compile-all', ['watch', 'run-server']);
 });
 
 gulp.task('build', function() {
-  runSequence('compile-all', 
-              'build-native');
+  runSequence('compile-all', 'build-native');
   
   // should we trigger the emulator?
   if(argv.run) {
