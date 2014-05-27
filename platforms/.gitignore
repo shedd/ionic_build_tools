@@ -1,0 +1,13 @@
+# iOS
+*.mode1v3
+*.perspectivev3
+*.pbxuser
+ios/build/*
+ios/CordovaLib/build/*
+ios/www/*
+
+# Android
+android/ant-build/**/*
+android/ant-gen/**/*
+android/CordovaLib/ant-build/**/*
+android/CordovaLib/ant-gen/**/*

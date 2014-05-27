@@ -1,0 +1,10 @@
+node_modules/
+*.log
+.DS_Store
+
+# ignore the compiled build output
+www/js/*
+www/css/*
+www/img/*
+www/templates/*
+www/index.html
