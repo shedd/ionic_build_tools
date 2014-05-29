@@ -12,50 +12,87 @@ var runSequence = require('run-sequence');
 var argv = require('yargs').argv;
 var jshint = require('gulp-jshint');
 var stylish = require('jshint-stylish');
+var changed = require('gulp-changed');
+var connect = require('gulp-connect');
+var open = require("gulp-open");
 
-var paths = {
+// the source paths
+var source_paths = {
   sass: ['./app/scss/**/*.scss'],
+  css: ['./app/scss/**/*.css'],
   scripts: ['./app/js/**/*.js'],
   templates: ['./app/templates/**/*.html'],
   images: ['./app/img/**/*.*'],
   index_page: ['./app/index.html']
 };
+// the destination paths
+var dest_paths = {
+  css: './www/css/',
+  scripts: './www/js/',
+  templates: './www/templates/',
+  images: './www/img/',
+  root: './www/'
+};
+// the options used by gulp-open when booting the test server
+var open_options = {
+  url: "http://localhost:8080"
+};
 
 // gulp.task('default', ['sass']);
 
 gulp.task('build-styles', function(done) {
-  gulp.src('./app/scss/ionic.app.scss')
+  gulp.src(source_paths.sass)
+    .pipe(changed(dest_paths.css))
     .pipe(sass())
-    .pipe(gulp.dest('./www/css/'))
+    .pipe(gulp.dest(dest_paths.css))
     .pipe(minifyCss({
       keepSpecialComments: 0
     }))
     .pipe(rename({ extname: '.min.css' }))
-    .pipe(gulp.dest('./www/css/'))
-    .on('end', done);
+    .pipe(gulp.dest(dest_paths.css))
+    .on('end', done)
+    .pipe(connect.reload());
+  gulp.src(source_paths.css)
+    .pipe(changed(dest_paths.css))
+    .pipe(gulp.dest(dest_paths.css))
+    .pipe(minifyCss({
+      keepSpecialComments: 0
+    }))
+    .pipe(rename({ extname: '.min.css' }))
+    .pipe(gulp.dest(dest_paths.css))
+    .on('end', done)
+    .pipe(connect.reload());
 });
 
 gulp.task('build-scripts', function() {
-  gulp.src(paths.scripts)
+  gulp.src(source_paths.scripts)
+    .pipe(changed(dest_paths.scripts))
     .pipe(preprocess())
-    .pipe(gulp.dest('./www/js/'));
+    .pipe(gulp.dest(dest_paths.scripts))
+    .pipe(connect.reload());
 });
 
 gulp.task('build-templates', function() {
-  gulp.src(paths.templates)
+  gulp.src(source_paths.templates)
+    .pipe(changed(dest_paths.templates))
     .pipe(preprocess())
-    .pipe(gulp.dest('./www/templates/'));
+    .pipe(gulp.dest(dest_paths.templates))
+    .pipe(connect.reload());
 });
 
 gulp.task('build-index', function() {
-  gulp.src(paths.index_page)
+  gulp.src(source_paths.index_page)
+    .pipe(changed(dest_paths.root))
     .pipe(preprocess())
-    .pipe(gulp.dest('./www'));
+    .pipe(gulp.dest(dest_paths.root))
+    .pipe(connect.reload());
 });
 
 gulp.task('build-images', function() {
-  gulp.src(paths.images)
-    .pipe(gulp.dest('./www/img/'));
+  gulp.src(source_paths.images)
+    .pipe(changed(dest_paths.images))
+    .pipe(gulp.dest(dest_paths.images))
+    .pipe(connect.reload());
 });
 
 gulp.task('build-native', function() {
@@ -106,29 +143,34 @@ gulp.task('compile-all', function(callback) {
             );
 });
 
-// start the ionic livereload server
+// start a livereload-enable server & open browser
 gulp.task('run-server', function() {
-  return exec('ionic serve');
+  connect.server({
+    root: 'www',
+    livereload: true
+  });
+  gulp.src(dest_paths.root + "index.html")
+  .pipe(open("", open_options));
 });
 
 gulp.task('watch-styles', function(){
-  return gulp.watch(paths.sass, ['build-styles']);
+  return gulp.watch(source_paths.sass, ['build-styles']);
 });
 
 gulp.task('watch-scripts', function(){
-  return gulp.watch(paths.scripts, ['build-scripts']);
+  return gulp.watch(source_paths.scripts, ['build-scripts']);
 });
 
 gulp.task('watch-templates', function(){
-  return gulp.watch(paths.templates, ['build-templates']);
+  return gulp.watch(source_paths.templates, ['build-templates']);
 });
 
 gulp.task('watch-index_page', function(){
-  return gulp.watch(paths.index_page, ['build-index']);
+  return gulp.watch(source_paths.index_page, ['build-index']);
 });
 
 gulp.task('watch-images', function(){
-  return gulp.watch(paths.images, ['build-images']);
+  return gulp.watch(source_paths.images, ['build-images']);
 });
 
 gulp.task('watch', function() {
@@ -160,7 +202,7 @@ gulp.task('build-release', function() {
 });
 
 gulp.task('lint', function() {
-  return gulp.src(paths.scripts)
+  return gulp.src(source_paths.scripts)
     .pipe(jshint())
     .pipe(jshint.reporter(stylish));
 });

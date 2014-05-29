@@ -40,15 +40,9 @@ The primary configuration the build target controls is the API hostname:
 
 ### Local Browser Testing
 
-Run the following command to build the application code and load it on the local Ionic testing server with LiveReload enabled:
+Run the following command to build the application code, start the watch task, and load it on the local Ionic testing server with LiveReload enabled:
 
     BUILD_TARGET=development gulp serve 
-
-And then in another tab start the watch task:
-
-    BUILD_TARGET=development gulp watch
-
-(I haven't figured out how to get `serve` and `watch` to run in parallel yet.)
 
 See more about testing here: http://ionicframework.com/docs/guide/testing.html
 
