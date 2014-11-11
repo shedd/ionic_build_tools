@@ -303,6 +303,8 @@ gulp.task('build-release', ['process-android-build-config'], function() {
       .pipe(clean({force: true}));
     gulp.src('./platforms/android/ant-gen/', {read: false})
       .pipe(clean({force: true}));
+    gulp.src('./platforms/android/out/', {read: false})
+      .pipe(clean({force: true}));
 
     if (exec('cordova build --release android').code !== 0) {
       echo('Error: Android build failed');
@@ -352,7 +354,7 @@ gulp.task('run-emulator', function() {
 gulp.task('build', function() {
   // are we building a debug or release version?
   if(argv.release) {
-    runSequence('build-release');
+    runSequence('build-release', 'run-emulator');
   }
   else {
     runSequence('build-debug', 'run-emulator');
