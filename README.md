@@ -88,6 +88,8 @@ The primary configuration the build target controls is the API hostname:
 * **staging**: `http://staging.domain.com`
 * **production**: `http://production.domain.com`
 
+Information on setting the BUILD_TARGET environment variable on Windows: https://github.com/shedd/ionic_build_tools/issues/1
+
 ### Local Browser Testing
 
 Run the default gulp task to build the application code, start the watch task, and load it on the local Ionic testing server with LiveReload enabled:
