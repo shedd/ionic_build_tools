@@ -11,7 +11,7 @@
        projectConfig;
 
   if ( typeof cordova_util.config_parser === 'undefined' ) {
-      CordovaConfigParser = require('cordova-lib/src/cordova/ConfigParser');
+      CordovaConfigParser = require('cordova-lib/src/configparser/ConfigParser.js');
       projectConfig = new CordovaConfigParser(projectXml);
   } else {
       projectConfig = new cordova_util.config_parser(projectXml);
