@@ -32,7 +32,6 @@ var source_paths = {
   scripts: ['./app/js/**/*.js'],
   templates: ['./app/templates/**/*.html'],
   images: ['./app/img/**/*.*'],
-  resources: ['./app/res/**/*.png'],
   index_page: ['./app/index.html']
 };
 // the destination paths
@@ -41,7 +40,6 @@ var dest_paths = {
   scripts: './www/js/',
   templates: './www/templates/',
   images: './www/img/',
-  resources: './www/res/',
   index_page: './www/index.html',
   root: './www/',
   release_builds: './release_builds'
@@ -116,22 +114,19 @@ gulp.task('compile-images', function() {
 });
 
 // compile resources (icons)
-gulp.task('compile-resources', function() {
-  exec('cd ./app/res/ && sh convert.sh');
+gulp.task('compile-resources', function () {
+  return exec('ionic resources')
+})
 
-  return gulp.src(source_paths.resources)
-     .pipe(changed(dest_paths.resources))
-     .pipe(gulp.dest(dest_paths.resources));
-});
-
-gulp.task('compile-all', ['compile-scripts',
-                          'compile-sass',
-                          'compile-css',
-                          'compile-templates',
-                          'compile-index',
-                          'compile-images',
-                          'compile-resources'
-                          ]);
+gulp.task('compile-all', [
+  'compile-scripts',
+  'compile-sass',
+  'compile-css',
+  'compile-templates',
+  'compile-index',
+  'compile-images',
+  'compile-resources'
+])
 
 // compile everything after cleaning the build
 gulp.task('compile', ['build-clean'], function(){
@@ -165,13 +160,8 @@ gulp.task('clean-scripts', function() {
 
 gulp.task('clean-templates', function() {
   return gulp.src(dest_paths.templates, {read: false})
-       .pipe(clean({force: true}));
-});
-
-gulp.task('clean-resources', function() {
-  return gulp.src(dest_paths.resources, {read: false})
-       .pipe(clean({force: true}));
-});
+    .pipe(clean({force: true}))
+})
 
 gulp.task('clean-index', function() {
   return gulp.src(dest_paths.index_page, {read: false})
