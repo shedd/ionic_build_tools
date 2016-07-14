@@ -29,6 +29,7 @@ var Q = require('q');
 var source_paths = {
   sass: ['./app/scss/**/*.scss'],
   css: ['./app/scss/**/*.css'],
+  fonts: ['./app/fonts/*'],
   scripts: ['./app/js/**/*.js'],
   templates: ['./app/templates/**/*.html'],
   images: ['./app/img/**/*.*'],
@@ -37,6 +38,7 @@ var source_paths = {
 // the destination paths
 var dest_paths = {
   css: './www/css/',
+  fonts: './www/fonts/',
   scripts: './www/js/',
   templates: './www/templates/',
   images: './www/img/',
@@ -79,8 +81,15 @@ gulp.task('compile-css', function() {
     }))
     .pipe(rename({ extname: '.min.css' }))
     .pipe(gulp.dest(dest_paths.css))
-    .pipe(connect.reload());
-});
+    .pipe(connect.reload())
+})
+
+gulp.task('compile-fonts', function () {
+  return gulp.src(source_paths.fonts)
+    .pipe(changed(dest_paths.fonts))
+    .pipe(gulp.dest(dest_paths.fonts))
+    .pipe(connect.reload())
+})
 
 gulp.task('compile-scripts', function() {
   return gulp.src(source_paths.scripts)
@@ -122,6 +131,7 @@ gulp.task('compile-all', [
   'compile-scripts',
   'compile-sass',
   'compile-css',
+  'compile-fonts',
   'compile-templates',
   'compile-index',
   'compile-images',
