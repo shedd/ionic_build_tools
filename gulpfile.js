@@ -26,7 +26,6 @@ var source = require('vinyl-source-stream')
 var buffer = require('vinyl-buffer')
 var sourcemaps = require('gulp-sourcemaps')
 var watchify = require('watchify')
-var assign = require('lodash.assign')
 var plumber = require('gulp-plumber')
 var babel = require('gulp-babel')
 
@@ -77,7 +76,7 @@ var open_options = {
   host: 'http://localhost'
 }
 
-gulp.task('default', function(){
+gulp.task('default', function () {
   runSequence('compile', 'serve')
 })
 
@@ -98,7 +97,7 @@ gulp.task('compile-sass', function () {
     .pipe(connect.reload())
 })
 
-gulp.task('compile-css', function() {
+gulp.task('compile-css', function () {
   return gulp.src(source_paths.css)
     .pipe(changed(dest_paths.css))
     .pipe(gulp.dest(dest_paths.css))

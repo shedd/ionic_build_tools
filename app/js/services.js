@@ -2,4 +2,5 @@
  * See services/ for the individual Service definitions.
  */
 
-var buildToolsServices = angular.module('BuildTools.services', ['BuildTools.config']);
+module.exports = angular.module('BuildTools.services', ['BuildTools.config'])
+  .service('SessionService', require('./services/Session'))
