@@ -18,8 +18,8 @@ $dark:                            #444 !default;
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
-// Include all of Ionic
-@import "www/lib/ionic/scss/ionic";
+/* Include all of Ionic */
+@import "../../node_modules/ionic/scss/ionic";
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;

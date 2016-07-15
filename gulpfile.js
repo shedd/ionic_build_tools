@@ -126,10 +126,9 @@ gulp.task('copy-scripts', function () {
 gulp.task('browserify', ['copy-scripts'], function () {
   return browserify(source_paths.bundle, {
     debug: true,
-    transform: ['debowerify']
   })
-    .external('angular')
-    .external('ionic')
+    .transform('browserify-shim')
+    .transform('debowerify', { preferNPM: true })
     .bundle().on('error', gutil.log)
     .pipe(source('bundle.js'))
     .pipe(gulp.dest(dest_paths.bundle))

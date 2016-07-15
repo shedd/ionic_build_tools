@@ -3,10 +3,22 @@
 // the 2nd parameter is an array of 'requires'
 //
 
+var angular = require('angular')
+
+// dependencies of ionic
+require('angular-animate')
+require('angular-sanitize')
+require('angular-ui-router')
+
+require('ionic')
+require('ionic-angular')
+
+require('./config/config.js')
 require('./controllers.js')
 require('./services.js')
 
-var buildTools = angular.module('BuildTools', [ 'ionic',
+var buildTools = angular.module('BuildTools', [
+  'ionic',
   'BuildTools.config',
   'BuildTools.controllers',
   'BuildTools.services'
