@@ -1,3 +1,5 @@
-buildToolsServices.service('Session', function () {
+function SessionService () {
   // your code here
-});
+}
+
+module.exports = [SessionService]

@@ -1,4 +1,11 @@
+# Specifies intentionally untracked files to ignore when using Git
+# http://git-scm.com/docs/gitignore
+
 node_modules/
+plugins/
+resources/android
+resources/ios
+
 *.log
 .DS_Store
 
@@ -8,3 +15,9 @@ www/css/*
 www/img/*
 www/templates/*
 www/index.html
+www/fonts/*
+www/dist/*
+platforms/android/assets
+platforms/android/res
+platforms/ios/**/Resources
+coverage
